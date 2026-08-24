@@ -34,4 +34,6 @@ Nama: **barangIF** = *barang* (thing yang dipamerin) + **IF** (Informatika).
 - **Phase 3:** chatbot mini-RAG per barang.
 
 ## Status
-Scaffold MVP jalan lokal tanpa akun eksternal. Lihat `agents/changelog.md`.
+MVP jalan lokal tanpa akun eksternal: 2 board (Situs/Prompt), submit
+(+validasi/honeypot/rate-limit/moderasi stub), upvote (bisa cancel), click,
+detail + vote-panel, form collapsible. Lihat `agents/changelog.md`.
