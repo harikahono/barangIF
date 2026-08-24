@@ -8,6 +8,7 @@ export type SegmentedToggleButtonProps = Readonly<
   {
     options?: readonly string[];
     defaultIndex?: number;
+    active?: number;
     onChange?: (index: number, value: string) => void;
     // ponytail: our onChange clashes with div's onChange, so omit it from the HTML props
   } & Omit<ComponentPropsWithoutRef<"div">, "onChange">
@@ -70,17 +71,18 @@ export const SegmentedToggleButton = forwardRef<
       className,
       options = ["Day", "Week", "Month"],
       defaultIndex = 0,
+      active,
       onChange,
       ...props
     },
     ref,
   ) => {
-    const [active, setActive] = useState(defaultIndex);
+    const [internal, setInternal] = useState(defaultIndex);
     const count = options.length;
-    const safeActive = Math.min(Math.max(active, 0), Math.max(count - 1, 0));
+    const safeActive = Math.min(Math.max(active ?? internal, 0), Math.max(count - 1, 0));
 
     const select = (index: number) => {
-      setActive(index);
+      setInternal(index);
       onChange?.(index, options[index] ?? "");
     };
 

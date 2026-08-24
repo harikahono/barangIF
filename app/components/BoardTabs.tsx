@@ -8,13 +8,11 @@ const OPTIONS = ['Situs', 'Prompt'] as const
 
 export function BoardTabs({ active }: { active: Kind }) {
   const router = useRouter()
-  const defaultIndex = active === 'prompt' ? 1 : 0
   return (
     <div className="mb-4">
       <SegmentedToggleButton
-        key={active}
         options={OPTIONS}
-        defaultIndex={defaultIndex}
+        active={active === 'prompt' ? 1 : 0}
         className="!w-full"
         onChange={(_i, value) => {
           const board = value === 'Prompt' ? 'prompt' : 'site'
