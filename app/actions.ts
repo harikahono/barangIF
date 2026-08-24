@@ -122,8 +122,21 @@ export async function submitFeedback(
   if (!body) return { ok: false, error: 'Penjelasan wajib diisi.' }
   if (body.length > 2000) return { ok: false, error: 'Penjelasan kepanjangan (max 2000).' }
   const email = String(formData.get('email') ?? '').trim().slice(0, 200) || undefined
+  const steps = String(formData.get('steps') ?? '').trim().slice(0, 2000)
+  const url = String(formData.get('url') ?? '').trim().slice(0, 500)
 
-  await appendFeedback({ type: type as FeedbackType, title, body, email })
+  if (type === 'bug' && !steps) {
+    return { ok: false, error: 'Langkah reproduksi wajib diisi buat laporan bug.' }
+  }
+
+  await appendFeedback({
+    type: type as FeedbackType,
+    title,
+    body,
+    email,
+    steps: steps || undefined,
+    url: url || undefined,
+  })
   revalidatePath('/masukan')
   return { ok: true }
 }

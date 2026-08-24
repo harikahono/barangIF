@@ -9,6 +9,7 @@ import { SegmentedToggleButton } from '@/app/components/ui/SegmentedToggle'
 
 const TYPE_OPTS = ['Fitur', 'Bug', 'Lainnya'] as const
 const TYPE_VAL: Record<string, string> = { Fitur: 'feature', Bug: 'bug', Lainnya: 'other' }
+const TYPE_INDEX: Record<string, number> = { feature: 0, bug: 1, other: 2 }
 
 export default function MasukanPage() {
   const [state, formAction] = useActionState(submitFeedback, { ok: false } as FeedbackState)
@@ -28,14 +29,44 @@ export default function MasukanPage() {
         <div className="mb-4">
           <span className="mb-1.5 block text-sm font-medium text-neutral-900">Jenis masukan</span>
           <SegmentedToggleButton
-            key={type}
             options={TYPE_OPTS}
-            defaultIndex={0}
+            active={TYPE_INDEX[type] ?? 0}
             className="!w-full"
             onChange={(_i, v) => setType(TYPE_VAL[v] ?? 'other')}
           />
         </div>
         <input type="hidden" name="type" value={type} readOnly />
+
+        {type === 'bug' && (
+          <>
+            <TextareaFieldInput
+              label="Langkah reproduksi"
+              name="steps"
+              required
+              maxLength={2000}
+              placeholder="1. Buka … 2. Klik … 3. Error muncul"
+              containerClassName="!max-w-none w-full mb-4"
+            />
+            <TextFieldInput
+              label="URL halaman (opsional)"
+              name="url"
+              type="url"
+              maxLength={500}
+              placeholder="https://…"
+              containerClassName="!max-w-none w-full mb-4"
+            />
+          </>
+        )}
+        {type === 'feature' && (
+          <TextFieldInput
+            label="URL/Link referensi (opsional)"
+            name="url"
+            type="url"
+            maxLength={500}
+            placeholder="https://…"
+            containerClassName="!max-w-none w-full mb-4"
+          />
+        )}
 
         <TextFieldInput
           label="Judul"

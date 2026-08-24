@@ -27,5 +27,9 @@ export interface Feedback {
   title: string
   body: string
   email?: string
+  /** bug reports: langkah reproduksi */
+  steps?: string
+  /** URL halaman / link referensi (opsional, per tipe) */
+  url?: string
   created_at: string
 }
