@@ -1,7 +1,8 @@
 import type { Kind } from '@/lib/types'
 import { listEntries } from '@/lib/db'
 import { BoardTabs } from '@/app/components/BoardTabs'
-import { EntryCard } from '@/app/components/EntryCard'
+import { Board } from '@/app/components/Board'
+import { ActivityFeed } from '@/app/components/ActivityFeed'
 import { SubmitForm } from '@/app/components/SubmitForm'
 
 export default async function Home({
@@ -21,14 +22,8 @@ export default async function Home({
       </p>
       <SubmitForm />
       <BoardTabs active={active} />
-      {entries.length === 0 ? (
-        <p className="text-sm text-neutral-500">
-          Belum ada yang pamer di board {active === 'prompt' ? 'Prompt' : 'Situs'}. Jadi yang
-          pertama!
-        </p>
-      ) : (
-        entries.map((entry) => <EntryCard key={entry.id} entry={entry} />)
-      )}
+      <Board entries={entries} />
+      <ActivityFeed entries={entries} />
     </main>
   )
 }

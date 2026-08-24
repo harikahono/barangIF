@@ -31,7 +31,13 @@ export default async function EntryPage({
             <div className="mt-1 flex flex-wrap items-center gap-2">
               <Badge>{isSite ? 'Situs' : 'Prompt'}</Badge>
               {entry.category && <Badge>{entry.category}</Badge>}
-              <span className="text-xs text-neutral-500">Score {score(entry)}</span>
+            </div>
+
+            {/* stats — mirror "Peringkat/Sponsor/Klik" pamerin */}
+            <div className="mt-3 flex gap-3 text-sm">
+              <Stat label="Score" value={score(entry)} />
+              <Stat label="Upvotes" value={entry.upvotes} />
+              <Stat label="Klik" value={entry.clicks} />
             </div>
 
             {entry.description && <p className="mt-3 text-neutral-700">{entry.description}</p>}
@@ -44,15 +50,23 @@ export default async function EntryPage({
               <p className="mt-2 text-xs text-neutral-500">Variables: {entry.variables}</p>
             )}
 
-            {isSite && entry.url && (
-              <ClickLink
-                id={entry.id}
-                url={entry.url}
-                className="mt-3 inline-block text-neutral-700 underline"
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              {isSite && entry.url && (
+                <ClickLink
+                  id={entry.id}
+                  url={entry.url}
+                  className="inline-block font-medium text-emerald-600 hover:underline"
+                >
+                  Buka situs ↗
+                </ClickLink>
+              )}
+              <Link
+                href="/"
+                className="inline-block rounded-full border border-neutral-200 px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-100"
               >
-                Buka situs ↗
-              </ClickLink>
-            )}
+                Pamerin lagi
+              </Link>
+            </div>
 
             {entry.has_chatbot && (
               <div className="mt-4 rounded-lg border border-dashed border-neutral-300 p-3 text-sm text-neutral-600">
@@ -63,5 +77,14 @@ export default async function EntryPage({
         </div>
       </Card>
     </main>
+  )
+}
+
+function Stat({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-1.5">
+      <div className="text-lg font-semibold tabular-nums">{value.toLocaleString()}</div>
+      <div className="text-[10px] uppercase tracking-tight text-neutral-500">{label}</div>
+    </div>
   )
 }
