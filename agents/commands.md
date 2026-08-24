@@ -18,6 +18,16 @@ Buka `/` → board. Submit / upvote / click langsung jalan (store lokal di
   kalau beneran kena stale-cache (gejalanya: `PageNotFoundError` / "Cannot find
   module for page" padahal file ada). Itu satu-satunya pengecualian.
 
+## Catatan .next (cache build)
+- JANGAN jalanin `bun dev` dan `bun run build`/`bun start` barengan di folder
+  `.next` yang sama — keduanya nulis ke `.next`, manifest jadi tabrakan
+  (gejalanya: error *"Could not find the module … in React Client Manifest"* /
+  `__webpack_modules__[moduleId] is not a function`).
+- Sebelum ganti mode (dev ↔ produksi), selalu: (1) kill server `bun`/`next` yang
+  jalan, (2) hapus `.next` (+ `node_modules/.cache`), (3) jalanin SATU perintah.
+- Kalau kena error manifest di atas: itu cache basi, **bukan** bug kode. Clear
+  `.next` + cache lalu restart, beres.
+
 ## Build & start (prod)
 ```bash
 bun run build  # jangan pakai --turbo
