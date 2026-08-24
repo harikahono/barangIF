@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 const NAV_LEFT = [
@@ -14,18 +15,36 @@ const NAV_RIGHT = [
 
 export default function CapsuleNavbar() {
   const pathname = usePathname();
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y < 80) setHidden(false);
+      else if (y > lastY.current) setHidden(true); // scroll ke bawah -> ilang
+      else setHidden(false); // scroll ke atas -> muncul
+      lastY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const linkClass = (href: string) =>
-    `px-4 py-2 rounded-full font-medium text-sm transition-colors max-sm:px-2.5 max-sm:text-xs ${
+    `px-6 py-2.5 rounded-full font-medium text-sm transition-colors max-sm:px-3 max-sm:text-xs ${
       pathname === href
         ? "bg-white text-neutral-900"
         : "text-neutral-100 hover:text-neutral-300"
     }`;
 
   return (
-    <div className="relative flex w-full justify-center px-4 mt-8">
-      <nav className="relative flex w-full max-w-3xl items-center justify-between rounded-full bg-neutral-900 px-5 py-3 shadow-lg max-sm:px-3">
-        <ul className="flex items-center gap-1">
+    <div
+      className={`fixed top-4 left-1/2 z-50 -translate-x-1/2 transition-transform duration-300 ${
+        hidden ? "-translate-y-[170%]" : "translate-y-0"
+      }`}
+    >
+      <nav className="relative flex w-full max-w-4xl items-center justify-between rounded-full bg-neutral-900 px-10 py-4 shadow-lg max-sm:px-4">
+        <ul className="flex items-center gap-5 max-sm:gap-2">
           {NAV_LEFT.map((item) => (
             <li key={item.href}>
               <Link href={item.href} className={linkClass(item.href)}>
@@ -43,11 +62,11 @@ export default function CapsuleNavbar() {
           <img
             src="/barangiflogo.webp"
             alt="barangIF"
-            className="h-11 w-auto drop-shadow-xl max-sm:h-9"
+            className="h-12 w-auto drop-shadow-xl max-sm:h-9"
           />
         </Link>
 
-        <ul className="flex items-center gap-1">
+        <ul className="flex items-center gap-5 max-sm:gap-2">
           {NAV_RIGHT.map((item) => (
             <li key={item.href}>
               <Link href={item.href} className={linkClass(item.href)}>
