@@ -27,7 +27,6 @@ export function SubmitForm() {
       <div className="mb-4">
         <span className="mb-1.5 block text-sm font-medium text-neutral-900">Jenis</span>
         <SegmentedToggleButton
-          key={kind}
           options={KIND_OPTS}
           defaultIndex={kind === 'prompt' ? 1 : 0}
           className="!w-full"
@@ -55,7 +54,6 @@ export function SubmitForm() {
       <div className="mb-4">
         <span className="mb-1.5 block text-sm font-medium text-neutral-900">Mo ada chatbot penjelas?</span>
         <SegmentedToggleButton
-          key={String(chat)}
           options={CHAT_OPTS}
           defaultIndex={chat ? 1 : 0}
           className="!w-full"

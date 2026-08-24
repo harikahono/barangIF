@@ -18,7 +18,7 @@ export function BoardTabs({ active }: { active: Kind }) {
         className="!w-full"
         onChange={(_i, value) => {
           const board = value === 'Prompt' ? 'prompt' : 'site'
-          router.push(`/?board=${board}`)
+          router.push(`/?board=${board}`, { scroll: false })
         }}
       />
     </div>
