@@ -18,3 +18,14 @@ export interface Entry {
   hidden: boolean
   created_at: string
 }
+
+export type FeedbackType = 'feature' | 'bug' | 'other'
+
+export interface Feedback {
+  id: string
+  type: FeedbackType
+  title: string
+  body: string
+  email?: string
+  created_at: string
+}

@@ -2,7 +2,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import crypto from 'crypto'
 import { seed } from './seed'
-import type { Entry, Kind } from './types'
+import type { Entry, Kind, Feedback, FeedbackType } from './types'
 
 // ponytail: store lokal (file JSON). Ganti ke Supabase cukup rewrite file ini.
 const DATA_DIR = path.join(process.cwd(), 'data')
@@ -72,4 +72,35 @@ export async function incrementClicks(id: string): Promise<void> {
   if (!e) return
   e.clicks += 1
   await writeAll(entries)
+}
+
+// ponytail: feedback disimpan di file JSON terpisah (gitignored), bukan di entries
+const FEEDBACK_FILE = path.join(DATA_DIR, 'feedback.json')
+
+async function readFeedback(): Promise<Feedback[]> {
+  try {
+    const raw = await fs.readFile(FEEDBACK_FILE, 'utf8')
+    return JSON.parse(raw) as Feedback[]
+  } catch {
+    return []
+  }
+}
+
+async function writeFeedback(all: Feedback[]): Promise<void> {
+  await fs.mkdir(DATA_DIR, { recursive: true })
+  await fs.writeFile(FEEDBACK_FILE, JSON.stringify(all, null, 2), 'utf8')
+}
+
+export async function appendFeedback(
+  input: Omit<Feedback, 'id' | 'created_at'>,
+): Promise<Feedback> {
+  const all = await readFeedback()
+  const fb: Feedback = {
+    ...input,
+    id: crypto.randomUUID(),
+    created_at: new Date().toISOString(),
+  }
+  all.push(fb)
+  await writeFeedback(all)
+  return fb
 }

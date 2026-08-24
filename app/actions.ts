@@ -2,10 +2,10 @@
 
 import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
-import { insertEntry, incrementUpvotes, incrementClicks } from '@/lib/db'
+import { insertEntry, incrementUpvotes, incrementClicks, appendFeedback } from '@/lib/db'
 import { rateLimited } from '@/lib/rateLimit'
 import { moderate } from '@/lib/moderation'
-import type { Kind } from '@/lib/types'
+import type { Kind, FeedbackType } from '@/lib/types'
 
 export interface SubmitState {
   ok: boolean
@@ -94,4 +94,30 @@ export async function upvoteEntry(id: string): Promise<void> {
 export async function registerClick(id: string): Promise<void> {
   await incrementClicks(id)
   revalidatePath('/')
+}
+
+export interface FeedbackState {
+  ok: boolean
+  error?: string
+}
+
+export async function submitFeedback(
+  _prev: FeedbackState,
+  formData: FormData,
+): Promise<FeedbackState> {
+  const type = formData.get('type')
+  if (type !== 'feature' && type !== 'bug' && type !== 'other') {
+    return { ok: false, error: 'Pilih jenis masukan.' }
+  }
+  const title = String(formData.get('title') ?? '').trim()
+  if (!title) return { ok: false, error: 'Judul wajib diisi.' }
+  if (title.length > 120) return { ok: false, error: 'Judul kepanjangan (max 120).' }
+  const body = String(formData.get('body') ?? '').trim()
+  if (!body) return { ok: false, error: 'Penjelasan wajib diisi.' }
+  if (body.length > 2000) return { ok: false, error: 'Penjelasan kepanjangan (max 2000).' }
+  const email = String(formData.get('email') ?? '').trim().slice(0, 200) || undefined
+
+  await appendFeedback({ type: type as FeedbackType, title, body, email })
+  revalidatePath('/masukan')
+  return { ok: true }
 }
