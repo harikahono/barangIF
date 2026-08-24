@@ -15,8 +15,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen bg-neutral-50 text-neutral-900 antialiased">
         <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/80 backdrop-blur">
           <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
-            <Link href="/" className="font-semibold tracking-tight">
-              barangIF
+            <Link href="/" className="flex items-center" aria-label="barangIF">
+              <img src="/barangiflogo.webp" alt="barangIF" className="h-7 w-auto" />
             </Link>
             <nav className="flex items-center gap-4 text-sm text-neutral-600">
               <Link href="/aturan" className="hover:text-neutral-900">
