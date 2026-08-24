@@ -9,3 +9,4 @@ Format: `YYYY-MM-DD · apa · kenapa`
 - 2026-08-25 · form toggle slide + BoardTabs gak scroll ke atas · toggle form tadi ngelag karena `key` bikin remount (ilang transisi CSS); BoardTabs `router.push` default auto-scroll ke atas pas ganti tab.
 - 2026-08-25 · BoardTabs slide (prop `active` di SegmentedToggle) · chip filter & tab board belum smooth kayak toggle form, sekarang pakai controlled active + sliding pill.
 - 2026-08-25 · cancel-vote (toggle) + collapsible submit form + backfill md · user minta vote bisa dibatalin & form gak harus kelihatan terus; sekalian benerin md biar gak stale (changelog/architecture/conventions/commands).
+- 2026-08-25 · fix toggle /masukan + form beda per tipe · toggle Fitur/Bug/Lainnya tadinya snap back (key={type} bikin remount); sekarang controlled via prop `active`. Bug → +Langkah reproduksi (wajib) + URL; Fitur → +URL referensi. Feedback type dapat `steps`/`url`.

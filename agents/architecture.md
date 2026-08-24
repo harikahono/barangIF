@@ -54,6 +54,10 @@ Browser
 - **Upvote sekarang toggle:** klik pertama naik (+1), klik lagi batal (-1).
   Dedup per visitor via `localStorage` key `up_<id>`. Perubahan dilempar ke
   parent lewat `onChange(delta)` biar Score update instan tanpa tunggu server.
+- **Halaman `/masukan` (feedback):** toggle Jenis (Fitur/Bug/Lainnya) **controlled**
+  via prop `active` (bukan `key` yang bikin remount). Form kondisional: Bug →
+  +Langkah reproduksi (wajib) + URL; Fitur → +URL referensi; Lainnya → base.
+  `Feedback` type punya `steps?` & `url?`, disimpan ke `data/feedback.json`.
 - **EntryCard & EntryVotePanel pegang state `ups` sendiri**; Score dihitung
   INLINE `ups*3 + entry.clicks`. Jangan impor `score` dari `@/lib/db` di client
   (db pakai `fs` → bundle client rusak).
