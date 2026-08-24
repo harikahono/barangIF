@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
-import { insertEntry, incrementUpvotes, incrementClicks, appendFeedback } from '@/lib/db'
+import { insertEntry, incrementUpvotes, decrementUpvotes, incrementClicks, appendFeedback } from '@/lib/db'
 import { rateLimited } from '@/lib/rateLimit'
 import { moderate } from '@/lib/moderation'
 import type { Kind, FeedbackType } from '@/lib/types'
@@ -87,6 +87,12 @@ export async function submitEntry(
 
 export async function upvoteEntry(id: string): Promise<void> {
   await incrementUpvotes(id)
+  revalidatePath('/')
+  revalidatePath(`/entry/${id}`)
+}
+
+export async function cancelVote(id: string): Promise<void> {
+  await decrementUpvotes(id)
   revalidatePath('/')
   revalidatePath(`/entry/${id}`)
 }

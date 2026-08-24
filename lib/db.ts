@@ -66,6 +66,15 @@ export async function incrementUpvotes(id: string): Promise<void> {
   await writeAll(entries)
 }
 
+// ponytail: cancel vote → decrement, floor 0 biar gak minus
+export async function decrementUpvotes(id: string): Promise<void> {
+  const entries = await readAll()
+  const e = entries.find((x) => x.id === id)
+  if (!e) return
+  e.upvotes = Math.max(0, e.upvotes - 1)
+  await writeAll(entries)
+}
+
 export async function incrementClicks(id: string): Promise<void> {
   const entries = await readAll()
   const e = entries.find((x) => x.id === id)

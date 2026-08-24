@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { useState } from 'react'
 import { MessageSquare } from 'lucide-react'
 import { Card } from './ui/Card'
 import { Badge } from './ui/Badge'
@@ -8,6 +11,7 @@ import type { Entry } from '@/lib/types'
 
 export function EntryCard({ entry }: { entry: Entry }) {
   const isSite = entry.kind === 'site'
+  const [ups, setUps] = useState(entry.upvotes)
 
   return (
     <Card className="relative mb-3">
@@ -19,7 +23,12 @@ export function EntryCard({ entry }: { entry: Entry }) {
       />
 
       <div className="relative z-10 flex gap-4 pointer-events-none">
-        <UpvoteButton id={entry.id} initial={entry.upvotes} className="pointer-events-auto" />
+        <UpvoteButton
+          id={entry.id}
+          initial={entry.upvotes}
+          className="pointer-events-auto"
+          onChange={(d) => setUps((u) => Math.max(0, u + d))}
+        />
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             {isSite && entry.url ? (
@@ -53,7 +62,7 @@ export function EntryCard({ entry }: { entry: Entry }) {
           <div className="mt-2 flex items-center gap-2 text-xs text-neutral-500">
             <Badge>{isSite ? 'Situs' : 'Prompt'}</Badge>
             {entry.category && <Badge>{entry.category}</Badge>}
-            <span>Score {entry.upvotes * 3 + entry.clicks}</span>
+            <span>Score {ups * 3 + entry.clicks}</span>
           </div>
         </div>
       </div>

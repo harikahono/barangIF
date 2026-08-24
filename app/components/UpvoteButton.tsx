@@ -11,7 +11,7 @@ import {
 
 import { cn } from '@/lib/cn'
 import { ArrowBigUp } from 'lucide-react'
-import { upvoteEntry } from '@/app/actions'
+import { upvoteEntry, cancelVote } from '@/app/actions'
 
 const PARTICLES = [
   { x: 0, y: -22 },
@@ -49,14 +49,18 @@ function Burst({ color }: { color: string }) {
 }
 
 export type UpvoteButtonProps = Readonly<
-  { id: string; initial: number } & ComponentPropsWithoutRef<'button'>
+  { id: string; initial: number; onChange?: (delta: number) => void } & Omit<
+      ComponentPropsWithoutRef<'button'>,
+      'onChange'
+    >
 >
 
-// Upvote — ArrowBigUp pops and scatters particles on first click, then dedups via localStorage + server action.
+// Upvote — ArrowBigUp pops + bursts on vote; toggle off (cancel) via localStorage + server action.
 export const UpvoteButton = forwardRef<HTMLButtonElement, UpvoteButtonProps>(
-  ({ className, id, initial, onClick, ...props }, ref) => {
+  ({ className, id, initial, onClick, onChange, ...props }, ref) => {
     const [upvoted, setUpvoted] = useState(false)
-    const [optimistic, addOptimistic] = useOptimistic(initial, (s, d: number) => s + d)
+    const [count, setCount] = useState(initial)
+    const [optimistic, addOptimistic] = useOptimistic(count, (s, d: number) => s + d)
     const [burstKey, setBurstKey] = useState(0)
     const [, start] = useTransition()
 
@@ -66,21 +70,32 @@ export const UpvoteButton = forwardRef<HTMLButtonElement, UpvoteButtonProps>(
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       onClick?.(event)
-      if (upvoted) return
-      localStorage.setItem(`up_${id}`, '1')
-      setUpvoted(true)
-      setBurstKey((k) => k + 1)
-      start(async () => {
-        addOptimistic(1)
-        await upvoteEntry(id)
-      })
+      if (upvoted) {
+        localStorage.removeItem(`up_${id}`)
+        setUpvoted(false)
+        setCount((c) => Math.max(0, c - 1))
+        start(async () => {
+          addOptimistic(-1)
+          await cancelVote(id)
+        })
+        onChange?.(-1)
+      } else {
+        localStorage.setItem(`up_${id}`, '1')
+        setUpvoted(true)
+        setCount((c) => c + 1)
+        setBurstKey((k) => k + 1)
+        start(async () => {
+          addOptimistic(1)
+          await upvoteEntry(id)
+        })
+        onChange?.(1)
+      }
     }
 
     return (
       <button
         ref={ref}
         type="button"
-        disabled={upvoted}
         aria-pressed={upvoted}
         aria-label="Upvote"
         data-slot="upvote-button"
