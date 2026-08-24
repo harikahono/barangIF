@@ -10,3 +10,4 @@ Format: `YYYY-MM-DD · apa · kenapa`
 - 2026-08-25 · BoardTabs slide (prop `active` di SegmentedToggle) · chip filter & tab board belum smooth kayak toggle form, sekarang pakai controlled active + sliding pill.
 - 2026-08-25 · cancel-vote (toggle) + collapsible submit form + backfill md · user minta vote bisa dibatalin & form gak harus kelihatan terus; sekalian benerin md biar gak stale (changelog/architecture/conventions/commands).
 - 2026-08-25 · fix toggle /masukan + form beda per tipe · toggle Fitur/Bug/Lainnya tadinya snap back (key={type} bikin remount); sekarang controlled via prop `active`. Bug → +Langkah reproduksi (wajib) + URL; Fitur → +URL referensi. Feedback type dapat `steps`/`url`.
+- 2026-08-25 · navbar kapsul + logo back-to-top · user mau navbar beda (kapsul overlap, logo melayang pas scroll buat balik atas), netral ikut palet barangIF. Kapsul gak sticky (ikut scroll hilang); logo terpisah muncul pas scrollY>300px, klik = balik ke atas.
