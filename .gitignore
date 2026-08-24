@@ -1,0 +1,25 @@
+# dependencies
+/node_modules
+/.next
+/.vercel
+
+# local data store (auto-seeded at runtime, per-dev)
+/data
+
+# env
+.env
+.env.local
+.env*.local
+
+# bun lockfile (optional to commit; keep local)
+bun.lockb
+
+# os
+.DS_Store
+
+# logs
+*.log
+*.log.*
+
+# typescript build info
+*.tsbuildinfo
