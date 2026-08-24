@@ -3,10 +3,13 @@
 import { useActionState, useState } from 'react'
 import { submitEntry, type SubmitState } from '@/app/actions'
 import { Button } from './ui/Button'
-import { Input } from './ui/Input'
-import { Textarea } from './ui/Textarea'
-import { cn } from '@/lib/cn'
+import { TextFieldInput } from './ui/text-field-input'
+import { TextareaFieldInput } from './ui/textarea-field-input'
+import { SegmentedToggleButton } from './ui/SegmentedToggle'
 import type { Kind } from '@/lib/types'
+
+const KIND_OPTS = ['Situs', 'Prompt'] as const
+const CHAT_OPTS = ['Gak', 'Ya'] as const
 
 export function SubmitForm() {
   const [state, formAction] = useActionState(submitEntry, { ok: false } as SubmitState)
@@ -14,99 +17,76 @@ export function SubmitForm() {
   const [chat, setChat] = useState(false)
 
   return (
-    <form action={formAction} className="mb-6 rounded-xl border border-neutral-800 bg-neutral-900 p-4">
-      {/* honeypot */}
+    <form
+      action={formAction}
+      className="mb-6 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm"
+    >
+      {/* honeypot — must stay hidden, name kept as `website` to match server check */}
       <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
 
-      <div className="mb-3 flex gap-1 rounded-lg border border-neutral-800 p-1">
-        {(['site', 'prompt'] as Kind[]).map((k) => (
-          <button
-            type="button"
-            key={k}
-            onClick={() => setKind(k)}
-            className={cn(
-              'flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition',
-              kind === k ? 'bg-neutral-100 text-neutral-900' : 'text-neutral-400',
-            )}
-          >
-            {k === 'site' ? 'Situs' : 'Prompt'}
-          </button>
-        ))}
+      <div className="mb-4">
+        <span className="mb-1.5 block text-sm font-medium text-neutral-900">Jenis</span>
+        <SegmentedToggleButton
+          key={kind}
+          options={KIND_OPTS}
+          defaultIndex={kind === 'prompt' ? 1 : 0}
+          className="!w-full"
+          onChange={(_i, value) => setKind(value === 'Prompt' ? 'prompt' : 'site')}
+        />
       </div>
-      <input type="hidden" name="kind" value={kind} />
+      <input type="hidden" name="kind" value={kind} readOnly />
 
-      <label className="mb-1 block text-xs text-neutral-400">Judul</label>
-      <Input name="title" required maxLength={200} className="mb-3" />
+      <TextFieldInput label="Judul" name="title" required maxLength={200} containerClassName="!max-w-none w-full mb-4" />
 
       {kind === 'site' ? (
         <>
-          <label className="mb-1 block text-xs text-neutral-400">URL (http/https)</label>
-          <Input name="url" type="url" required className="mb-3" />
-          <label className="mb-1 block text-xs text-neutral-400">Deskripsi</label>
-          <Textarea name="description" maxLength={500} className="mb-3" />
+          <TextFieldInput label="URL (http/https)" name="url" type="url" required containerClassName="!max-w-none w-full mb-4" />
+          <TextareaFieldInput label="Deskripsi" name="description" maxLength={500} containerClassName="!max-w-none w-full mb-4" />
         </>
       ) : (
         <>
-          <label className="mb-1 block text-xs text-neutral-400">Body (prompt-nya)</label>
-          <Textarea name="body" required maxLength={5000} className="mb-3" />
-          <label className="mb-1 block text-xs text-neutral-400">
-            Variables (mis. {'{{file}}'})
-          </label>
-          <Input name="variables" maxLength={500} className="mb-3" />
+          <TextareaFieldInput label="Body (prompt-nya)" name="body" required maxLength={5000} containerClassName="!max-w-none w-full mb-4" />
+          <TextFieldInput label="Variables (mis. {{file}})" name="variables" maxLength={500} containerClassName="!max-w-none w-full mb-4" />
         </>
       )}
 
-      <label className="mb-1 block text-xs text-neutral-400">Kategori (opsional)</label>
-      <Input name="category" maxLength={50} className="mb-3" />
+      <TextFieldInput label="Kategori (opsional)" name="category" maxLength={50} containerClassName="!max-w-none w-full mb-4" />
 
-      <label className="mb-1 block text-xs text-neutral-400">Mo ada chatbot penjelas?</label>
-      <div className="mb-3 flex gap-1 rounded-lg border border-neutral-800 p-1">
-        <button
-          type="button"
-          onClick={() => setChat(false)}
-          className={cn(
-            'flex-1 rounded-md px-3 py-1.5 text-sm transition',
-            !chat ? 'bg-neutral-100 text-neutral-900' : 'text-neutral-400',
-          )}
-        >
-          Gak
-        </button>
-        <button
-          type="button"
-          onClick={() => setChat(true)}
-          className={cn(
-            'flex-1 rounded-md px-3 py-1.5 text-sm transition',
-            chat ? 'bg-neutral-100 text-neutral-900' : 'text-neutral-400',
-          )}
-        >
-          Ya
-        </button>
+      <div className="mb-4">
+        <span className="mb-1.5 block text-sm font-medium text-neutral-900">Mo ada chatbot penjelas?</span>
+        <SegmentedToggleButton
+          key={String(chat)}
+          options={CHAT_OPTS}
+          defaultIndex={chat ? 1 : 0}
+          className="!w-full"
+          onChange={(_i, value) => setChat(value === 'Ya')}
+        />
       </div>
-      <input type="hidden" name="has_chatbot" value={chat ? 'yes' : 'no'} />
+      <input type="hidden" name="has_chatbot" value={chat ? 'yes' : 'no'} readOnly />
 
       {chat && (
-        <div className="mb-3 space-y-3 rounded-lg border border-neutral-800 p-3">
-          <p className="text-xs text-neutral-400">Lengkapi biar bot gak ngablu:</p>
+        <div className="mb-4 space-y-3 rounded-xl border border-neutral-200 p-4">
+          <p className="text-xs text-neutral-500">Lengkapi biar bot gak ngablu:</p>
           {kind === 'site' ? (
             <>
-              <Input name="m_fitur" placeholder="Fitur utama" maxLength={300} />
-              <Input name="m_usecase" placeholder="Use case" maxLength={300} />
-              <Input name="m_pricing" placeholder="Pricing" maxLength={300} />
-              <Input name="m_platform" placeholder="Platform" maxLength={300} />
+              <TextFieldInput label="Fitur utama" name="m_fitur" placeholder="Fitur utama" maxLength={300} containerClassName="!max-w-none w-full" />
+              <TextFieldInput label="Use case" name="m_usecase" placeholder="Use case" maxLength={300} containerClassName="!max-w-none w-full" />
+              <TextFieldInput label="Pricing" name="m_pricing" placeholder="Pricing" maxLength={300} containerClassName="!max-w-none w-full" />
+              <TextFieldInput label="Platform" name="m_platform" placeholder="Platform" maxLength={300} containerClassName="!max-w-none w-full" />
             </>
           ) : (
             <>
-              <Input name="m_model" placeholder="Model" maxLength={300} />
-              <Input name="m_variables" placeholder="Variables" maxLength={300} />
-              <Input name="m_usecase" placeholder="Use case" maxLength={300} />
-              <Input name="m_output" placeholder="Contoh output" maxLength={300} />
+              <TextFieldInput label="Model" name="m_model" placeholder="Model" maxLength={300} containerClassName="!max-w-none w-full" />
+              <TextFieldInput label="Variables" name="m_variables" placeholder="Variables" maxLength={300} containerClassName="!max-w-none w-full" />
+              <TextFieldInput label="Use case" name="m_usecase" placeholder="Use case" maxLength={300} containerClassName="!max-w-none w-full" />
+              <TextFieldInput label="Contoh output" name="m_output" placeholder="Contoh output" maxLength={300} containerClassName="!max-w-none w-full" />
             </>
           )}
         </div>
       )}
 
-      {state.error && <p className="mb-2 text-sm text-red-400">{state.error}</p>}
-      {state.ok && <p className="mb-2 text-sm text-green-400">Barang dipamerin! 🎉</p>}
+      {state.error && <p className="mb-2 text-sm font-medium text-red-600">{state.error}</p>}
+      {state.ok && <p className="mb-2 text-sm font-medium text-emerald-600">Barang dipamerin! 🎉</p>}
       <Button type="submit">Pamerin!</Button>
     </form>
   )

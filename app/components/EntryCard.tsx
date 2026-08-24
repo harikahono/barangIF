@@ -18,25 +18,26 @@ export function EntryCard({ entry }: { entry: Entry }) {
             <ClickLink
               id={entry.id}
               url={entry.url}
-              className="truncate font-semibold text-neutral-100 hover:underline"
+              className="truncate font-semibold text-neutral-900 hover:underline"
             >
               {entry.title}
             </ClickLink>
           ) : (
-            <span className="truncate font-semibold text-neutral-100">{entry.title}</span>
+            <span className="truncate font-semibold text-neutral-900">{entry.title}</span>
           )}
           {entry.has_chatbot && (
             <Badge>
-              <MessageSquare className="mr-1 inline h-3 w-3" />chat
+              <MessageSquare className="mr-1 inline h-3 w-3" />
+              chat
             </Badge>
           )}
         </div>
 
         {entry.description && (
-          <p className="mt-1 line-clamp-2 text-sm text-neutral-400">{entry.description}</p>
+          <p className="mt-1 line-clamp-2 text-sm text-neutral-600">{entry.description}</p>
         )}
         {!isSite && entry.body && (
-          <p className="mt-1 line-clamp-2 whitespace-pre-wrap text-sm text-neutral-400">
+          <p className="mt-1 line-clamp-2 whitespace-pre-wrap text-sm text-neutral-600">
             {entry.body}
           </p>
         )}
@@ -49,7 +50,7 @@ export function EntryCard({ entry }: { entry: Entry }) {
             <ClickLink
               id={entry.id}
               url={entry.url}
-              className="ml-auto text-neutral-400 hover:underline"
+              className="ml-auto text-neutral-500 hover:underline"
             >
               Buka ↗
             </ClickLink>

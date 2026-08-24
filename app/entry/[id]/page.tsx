@@ -19,7 +19,7 @@ export default async function EntryPage({
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-8">
-      <Link href="/" className="text-sm text-neutral-400 hover:underline">
+      <Link href="/" className="text-sm text-neutral-600 hover:underline">
         ← Board
       </Link>
 
@@ -34,9 +34,9 @@ export default async function EntryPage({
               <span className="text-xs text-neutral-500">Score {score(entry)}</span>
             </div>
 
-            {entry.description && <p className="mt-3 text-neutral-300">{entry.description}</p>}
+            {entry.description && <p className="mt-3 text-neutral-700">{entry.description}</p>}
             {!isSite && entry.body && (
-              <pre className="mt-3 whitespace-pre-wrap rounded-lg bg-neutral-950 p-3 text-sm text-neutral-200">
+              <pre className="mt-3 whitespace-pre-wrap rounded-lg bg-neutral-100 p-3 text-sm text-neutral-800">
                 {entry.body}
               </pre>
             )}
@@ -48,14 +48,14 @@ export default async function EntryPage({
               <ClickLink
                 id={entry.id}
                 url={entry.url}
-                className="mt-3 inline-block text-neutral-100 underline"
+                className="mt-3 inline-block text-neutral-700 underline"
               >
                 Buka situs ↗
               </ClickLink>
             )}
 
             {entry.has_chatbot && (
-              <div className="mt-4 rounded-lg border border-dashed border-neutral-700 p-3 text-sm text-neutral-500">
+              <div className="mt-4 rounded-lg border border-dashed border-neutral-300 p-3 text-sm text-neutral-600">
                 Chatbot penjelas (mini-RAG) menyusul di Phase 3.
               </div>
             )}

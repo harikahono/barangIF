@@ -1,43 +1,118 @@
 'use client'
 
-import { useEffect, useState, useOptimistic, useTransition } from 'react'
+import {
+  forwardRef,
+  useEffect,
+  useState,
+  useOptimistic,
+  useTransition,
+  type ComponentPropsWithoutRef,
+} from 'react'
+
+import { cn } from '@/lib/cn'
 import { ArrowBigUp } from 'lucide-react'
 import { upvoteEntry } from '@/app/actions'
-import { cn } from '@/lib/cn'
 
-export function UpvoteButton({ id, initial }: { id: string; initial: number }) {
-  const [upvoted, setUpvoted] = useState(false)
-  const [optimistic, addOptimistic] = useOptimistic(initial, (s, d: number) => s + d)
-  const [, start] = useTransition()
+const PARTICLES = [
+  { x: 0, y: -22 },
+  { x: 18, y: -14 },
+  { x: 22, y: 4 },
+  { x: 13, y: 20 },
+  { x: -13, y: 20 },
+  { x: -22, y: 4 },
+  { x: -18, y: -14 },
+]
 
+function Burst({ color }: { color: string }) {
+  const [out, setOut] = useState(false)
   useEffect(() => {
-    setUpvoted(localStorage.getItem(`up_${id}`) === '1')
-  }, [id])
-
-  function onClick() {
-    if (upvoted) return
-    localStorage.setItem(`up_${id}`, '1')
-    setUpvoted(true)
-    start(async () => {
-      addOptimistic(1)
-      await upvoteEntry(id)
-    })
-  }
-
+    const id = globalThis.requestAnimationFrame(() => setOut(true))
+    return () => globalThis.cancelAnimationFrame(id)
+  }, [])
   return (
-    <button
-      onClick={onClick}
-      disabled={upvoted}
-      aria-label="Upvote"
-      className={cn(
-        'flex shrink-0 flex-col items-center rounded-lg border px-3 py-2 text-sm transition',
-        upvoted
-          ? 'border-neutral-700 text-neutral-300'
-          : 'border-neutral-800 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100',
-      )}
-    >
-      <ArrowBigUp className="h-5 w-5" />
-      {optimistic}
-    </button>
+    <span aria-hidden className="pointer-events-none absolute inset-0 flex items-center justify-center">
+      {PARTICLES.map((p, i) => (
+        <span
+          key={i}
+          className="absolute top-1/2 left-1/2 size-1.5 rounded-full transition-all duration-500 ease-out"
+          style={{
+            backgroundColor: color,
+            opacity: out ? 0 : 1,
+            transform: out
+              ? `translate(calc(-50% + ${p.x}px), calc(-50% + ${p.y}px)) scale(0.2)`
+              : 'translate(-50%, -50%) scale(1)',
+          }}
+        />
+      ))}
+    </span>
   )
 }
+
+export type UpvoteButtonProps = Readonly<
+  { id: string; initial: number } & ComponentPropsWithoutRef<'button'>
+>
+
+// Upvote — ArrowBigUp pops and scatters particles on first click, then dedups via localStorage + server action.
+export const UpvoteButton = forwardRef<HTMLButtonElement, UpvoteButtonProps>(
+  ({ className, id, initial, onClick, ...props }, ref) => {
+    const [upvoted, setUpvoted] = useState(false)
+    const [optimistic, addOptimistic] = useOptimistic(initial, (s, d: number) => s + d)
+    const [burstKey, setBurstKey] = useState(0)
+    const [, start] = useTransition()
+
+    useEffect(() => {
+      setUpvoted(localStorage.getItem(`up_${id}`) === '1')
+    }, [id])
+
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      onClick?.(event)
+      if (upvoted) return
+      localStorage.setItem(`up_${id}`, '1')
+      setUpvoted(true)
+      setBurstKey((k) => k + 1)
+      start(async () => {
+        addOptimistic(1)
+        await upvoteEntry(id)
+      })
+    }
+
+    return (
+      <button
+        ref={ref}
+        type="button"
+        disabled={upvoted}
+        aria-pressed={upvoted}
+        aria-label="Upvote"
+        data-slot="upvote-button"
+        onClick={handleClick}
+        className={cn(
+          'inline-flex shrink-0 flex-col items-center gap-0.5 rounded-full px-3 py-2 font-sans text-sm font-medium select-none',
+          'transition-[background-color,box-shadow,color] duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]',
+          'shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_1px_1px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.08),inset_0_1px_2px_rgba(255,255,255,0.4),inset_0_-2px_4px_rgba(0,0,0,0.08)]',
+          upvoted
+            ? 'bg-emerald-50 text-emerald-600 active:bg-emerald-100'
+            : 'bg-neutral-50 text-neutral-600 hover:text-neutral-900 active:bg-neutral-100',
+          className,
+        )}
+        {...props}
+      >
+        <span className="relative flex size-5 items-center justify-center">
+          {upvoted && <Burst key={burstKey} color="#10B981" />}
+          <ArrowBigUp
+            size={18}
+            strokeWidth={2}
+            aria-hidden
+            className={cn(
+              'relative z-10 transition-[transform,fill,color,filter] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]',
+              upvoted
+                ? 'scale-110 fill-emerald-500 text-emerald-500'
+                : 'scale-100 fill-transparent text-current',
+            )}
+          />
+        </span>
+        <span className="tabular-nums">{optimistic.toLocaleString()}</span>
+      </button>
+    )
+  },
+)
+UpvoteButton.displayName = 'UpvoteButton'

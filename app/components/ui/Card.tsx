@@ -1,10 +1,11 @@
 import { cn } from '@/lib/cn'
 import type { HTMLAttributes } from 'react'
 
+// ponytail: light card mirroring opensourceui.in's neutral surface
 export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn('rounded-xl border border-neutral-800 bg-neutral-900 p-4', className)}
+      className={cn('rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm', className)}
       {...props}
     />
   )
