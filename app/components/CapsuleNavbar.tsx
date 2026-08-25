@@ -33,7 +33,7 @@ export default function CapsuleNavbar() {
   const linkClass = (href: string) =>
     `px-6 py-2.5 rounded-full font-medium text-sm transition-colors max-sm:px-3 max-sm:text-xs ${
       pathname === href
-        ? "bg-white text-brand"
+        ? "bg-white text-accent"
         : "text-white hover:text-white/70"
     }`;
 
@@ -43,7 +43,7 @@ export default function CapsuleNavbar() {
         hidden ? "-translate-y-[170%]" : "translate-y-0"
       }`}
     >
-      <nav className="relative flex w-[650px] max-w-[92vw] items-center justify-between rounded-full bg-brand px-5 py-4 shadow-lg max-sm:px-4">
+      <nav className="relative flex w-[650px] max-w-[92vw] items-center justify-between rounded-full bg-accent px-5 py-4 shadow-lg max-sm:px-4">
         <ul className="flex items-center gap-5 max-sm:gap-2">
           {NAV_LEFT.map((item) => (
             <li key={item.href}>

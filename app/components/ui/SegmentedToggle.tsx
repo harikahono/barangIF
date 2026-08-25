@@ -122,7 +122,7 @@ export const SegmentedToggleButton = forwardRef<
               "relative z-10 min-w-18 cursor-pointer rounded-lg px-4 py-2 text-center whitespace-nowrap outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-neutral-900",
               LABEL_MOTION,
               safeActive === index
-                ? "text-neutral-900"
+                ? "text-[#0f172a]"
                 : "text-neutral-500 hover:text-neutral-700",
             )}
           >
