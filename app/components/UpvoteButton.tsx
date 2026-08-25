@@ -112,7 +112,7 @@ export const UpvoteButton = forwardRef<HTMLButtonElement, UpvoteButtonProps>(
         {...props}
       >
         <span className="relative flex size-5 items-center justify-center">
-           {upvoted && <Burst key={burstKey} color="#ff7a3c" />}
+           {upvoted && <Burst key={burstKey} color="var(--color-emerald-600)" />}
           <ArrowBigUp
             size={18}
             strokeWidth={2}

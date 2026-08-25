@@ -33,8 +33,8 @@ export default function CapsuleNavbar() {
   const linkClass = (href: string) =>
     `px-6 py-2.5 rounded-full font-medium text-sm transition-colors max-sm:px-3 max-sm:text-xs ${
       pathname === href
-        ? "bg-white text-accent"
-        : "text-white hover:text-white/70"
+        ? "bg-nav-active-bg text-nav-active-text"
+        : "text-nav-fg hover:opacity-70"
     }`;
 
   return (
@@ -43,7 +43,7 @@ export default function CapsuleNavbar() {
         hidden ? "-translate-y-[170%]" : "translate-y-0"
       }`}
     >
-      <nav className="relative flex w-[650px] max-w-[92vw] items-center justify-between rounded-full bg-accent px-5 py-4 shadow-lg max-sm:px-4">
+      <nav className="relative flex w-[650px] max-w-[92vw] items-center justify-between rounded-full border border-neutral-200 bg-accent px-5 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.06),0_10px_30px_rgba(0,0,0,0.12)] max-sm:px-4">
         <ul className="flex items-center gap-5 max-sm:gap-2">
           {NAV_LEFT.map((item) => (
             <li key={item.href}>
