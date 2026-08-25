@@ -3,12 +3,11 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { Menu } from "lucide-react";
 
-const NAV_LEFT = [
+const NAV = [
   { href: "/aturan", label: "Aturan" },
   { href: "/tentang", label: "Tentang" },
-];
-const NAV_RIGHT = [
   { href: "/statistik", label: "Statistik" },
   { href: "/masukan", label: "Masukan" },
 ];
@@ -16,10 +15,12 @@ const NAV_RIGHT = [
 export default function CapsuleNavbar() {
   const pathname = usePathname();
   const [hidden, setHidden] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const lastY = useRef(0);
 
   useEffect(() => {
     const onScroll = () => {
+      if (menuOpen) return; // jangan sembunyikan pas menu kebuka
       const y = window.scrollY;
       if (y < 20) setHidden(false);
       else if (y > lastY.current) setHidden(true); // scroll ke bawah -> ilang
@@ -28,10 +29,18 @@ export default function CapsuleNavbar() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, [menuOpen]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
   }, []);
 
   const linkClass = (href: string) =>
-    `px-6 py-2.5 rounded-full font-medium text-sm transition-colors max-sm:px-3 max-sm:text-xs ${
+    `block rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
       pathname === href
         ? "bg-nav-active-bg text-nav-active-text"
         : "text-nav-fg hover:opacity-70"
@@ -44,8 +53,9 @@ export default function CapsuleNavbar() {
       }`}
     >
       <nav className="relative flex w-[650px] max-w-[92vw] items-center justify-between rounded-full border border-neutral-200 bg-neutral-100 px-5 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.06),0_10px_30px_rgba(0,0,0,0.12)] max-sm:px-4">
-        <ul className="flex items-center gap-5 max-sm:gap-2">
-          {NAV_LEFT.map((item) => (
+        {/* desktop: link kiri */}
+        <ul className="hidden items-center gap-5 sm:flex">
+          {NAV.slice(0, 2).map((item) => (
             <li key={item.href}>
               <Link href={item.href} className={linkClass(item.href)}>
                 {item.label}
@@ -54,20 +64,22 @@ export default function CapsuleNavbar() {
           ))}
         </ul>
 
+        {/* logo — tengah di desktop, kiri di mobile */}
         <Link
           href="/"
           aria-label="barangIF — kembali ke beranda"
-          className="pointer-events-auto absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
+          className="pointer-events-auto absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 max-sm:static max-sm:translate-x-0 max-sm:translate-y-0"
         >
           <img
             src="/barangiflogo.webp"
             alt="barangIF"
-            className="h-12 w-auto drop-shadow-xl max-sm:h-9"
+            className="h-12 w-auto drop-shadow-xl max-sm:h-8"
           />
         </Link>
 
-        <ul className="flex items-center gap-5 max-sm:gap-2">
-          {NAV_RIGHT.map((item) => (
+        {/* desktop: link kanan */}
+        <ul className="hidden items-center gap-5 sm:flex">
+          {NAV.slice(2).map((item) => (
             <li key={item.href}>
               <Link href={item.href} className={linkClass(item.href)}>
                 {item.label}
@@ -75,7 +87,39 @@ export default function CapsuleNavbar() {
             </li>
           ))}
         </ul>
+
+        {/* mobile: hamburger */}
+        <button
+          type="button"
+          aria-label="Buka menu"
+          aria-expanded={menuOpen}
+          onClick={() => {
+            setMenuOpen((o) => !o);
+            setHidden(false);
+          }}
+          className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-full text-neutral-900 hover:opacity-70 sm:hidden"
+        >
+          <Menu size={22} />
+        </button>
       </nav>
+
+      {/* mobile: panel menu */}
+      {menuOpen ? (
+        <div className="absolute left-1/2 top-full mt-2 w-[88vw] max-w-sm -translate-x-1/2 sm:hidden">
+          <div className="rounded-2xl border border-neutral-200 bg-neutral-100 p-2 shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
+            {NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                className={linkClass(item.href)}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
