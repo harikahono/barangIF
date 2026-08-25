@@ -9,7 +9,7 @@ import { UpvoteButton } from './UpvoteButton'
 import { ClickLink } from './ClickLink'
 import type { Entry } from '@/lib/types'
 
-export function EntryCard({ entry }: { entry: Entry }) {
+export function EntryCard({ entry, rank }: { entry: Entry; rank?: number }) {
   const isSite = entry.kind === 'site'
   const [ups, setUps] = useState(entry.upvotes)
 
@@ -23,12 +23,21 @@ export function EntryCard({ entry }: { entry: Entry }) {
       />
 
       <div className="relative z-10 flex items-center gap-4 pointer-events-none">
-        <UpvoteButton
-          id={entry.id}
-          initial={entry.upvotes}
-          className="pointer-events-auto"
-          onChange={(d) => setUps((u) => Math.max(0, u + d))}
-        />
+        {rank != null &&
+          (rank <= 3 ? (
+            <span
+              className={
+                'inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold tabular-nums text-neutral-900 pointer-events-none ' +
+                (rank === 1 ? 'bg-neutral-300' : rank === 2 ? 'bg-neutral-200' : 'bg-neutral-100')
+              }
+            >
+              {rank}
+            </span>
+          ) : (
+            <span className="w-6 shrink-0 text-center font-mono text-sm tabular-nums text-neutral-400 pointer-events-none">
+              {rank}
+            </span>
+          ))}
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             {isSite && entry.url ? (
@@ -65,6 +74,12 @@ export function EntryCard({ entry }: { entry: Entry }) {
             <span>Score {ups * 3 + entry.clicks}</span>
           </div>
         </div>
+        <UpvoteButton
+          id={entry.id}
+          initial={entry.upvotes}
+          className="pointer-events-auto"
+          onChange={(d) => setUps((u) => Math.max(0, u + d))}
+        />
       </div>
     </Card>
   )

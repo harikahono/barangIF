@@ -17,7 +17,14 @@ export function Board({ entries }: { entries: Entry[] }) {
   const [visible, setVisible] = useState(PAGE)
 
   const filtered = cat === 'Semua' ? entries : entries.filter((e) => e.category === cat)
-  const shown = filtered.slice(0, visible)
+  const rankById = useMemo(() => {
+    const m: Record<string, number> = {}
+    filtered.forEach((e, i) => (m[e.id] = i + 1))
+    return m
+  }, [filtered])
+  const hasSplit = filtered.length > 5
+  const top = filtered.slice(0, 5)
+  const rest = filtered.slice(5, visible)
 
   return (
     <div>
@@ -34,10 +41,23 @@ export function Board({ entries }: { entries: Entry[] }) {
         </div>
       )}
 
-      {shown.length === 0 ? (
+      {filtered.length === 0 ? (
         <p className="text-sm text-neutral-500">Belum ada listing di sini.</p>
       ) : (
-        shown.map((entry) => <EntryCard key={entry.id} entry={entry} />)
+        <>
+          {hasSplit && (
+            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-neutral-400">
+              5 Teratas
+            </p>
+          )}
+          {top.map((entry) => (
+            <EntryCard key={entry.id} entry={entry} rank={rankById[entry.id]} />
+          ))}
+          {hasSplit && <hr className="my-4 border-neutral-200" />}
+          {rest.map((entry) => (
+            <EntryCard key={entry.id} entry={entry} rank={rankById[entry.id]} />
+          ))}
+        </>
       )}
 
       {visible < filtered.length && (
