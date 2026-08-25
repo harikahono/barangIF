@@ -27,16 +27,16 @@ const SIZE: Record<SoftPillButtonSize, string> = {
 
 const VARIANT: Record<SoftPillButtonVariant, string> = {
   light: cn(
-    "bg-white text-neutral-800",
+    "bg-neutral-100 text-neutral-800",
     "shadow-[0_2px_4px_rgba(0,0,0,0.06),0_8px_20px_rgba(0,0,0,0.08)]",
     "hover:bg-neutral-50 hover:text-neutral-900",
-    "active:bg-neutral-100 active:shadow-[0_1px_2px_rgba(0,0,0,0.06),0_3px_8px_rgba(0,0,0,0.06)]",
+    "active:bg-neutral-200 active:shadow-[0_1px_2px_rgba(0,0,0,0.06),0_3px_8px_rgba(0,0,0,0.06)]",
   ),
   dark: cn(
-    "bg-neutral-800 text-white",
+    "bg-[#0d1b2a] text-white",
     "shadow-[0_2px_4px_rgba(0,0,0,0.2),0_8px_20px_rgba(0,0,0,0.25)]",
-    "hover:bg-neutral-700",
-    "active:bg-neutral-900 active:shadow-[0_1px_2px_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.2)]",
+    "hover:bg-[#16293f]",
+    "active:bg-[#0a1622] active:shadow-[0_1px_2px_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.2)]",
   ),
 };
 

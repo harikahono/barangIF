@@ -69,7 +69,7 @@ export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>(
             error ? errorId : hint ? hintId : undefined
           }
           className={cn(
-            "h-10 w-full rounded-lg border bg-white px-3.5 font-sans text-sm text-neutral-900 outline-none ring-0 transition-[border-color,background-color] duration-200 placeholder:text-neutral-400 focus:ring-0 disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400",
+            "h-10 w-full rounded-lg border bg-neutral-100 px-3.5 font-sans text-sm text-neutral-900 outline-none ring-0 transition-[border-color,background-color] duration-200 placeholder:text-neutral-400 focus:ring-0 disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400",
             error
               ? "border-rose-300 focus:border-rose-400"
               : "border-neutral-200 focus:border-neutral-900",

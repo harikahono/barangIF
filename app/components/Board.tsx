@@ -69,8 +69,8 @@ function Chip({
       className={
         'rounded-full border px-3 py-1 text-xs font-medium transition-colors ' +
         (active
-          ? 'border-neutral-900 bg-neutral-900 text-white'
-          : 'border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-100')
+          ? 'border-brand bg-brand text-white'
+          : 'border-neutral-200 bg-neutral-100 text-neutral-600 hover:bg-neutral-50')
       }
     >
       {children}

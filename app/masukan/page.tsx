@@ -24,7 +24,7 @@ export default function MasukanPage() {
 
       <form
         action={formAction}
-        className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm"
+        className="rounded-2xl border border-neutral-200 bg-neutral-100 p-5 shadow-sm"
       >
         <div className="mb-4">
           <span className="mb-1.5 block text-sm font-medium text-neutral-900">Jenis masukan</span>

@@ -22,7 +22,7 @@ export function EntryVotePanel({ entry }: { entry: Entry }) {
   const clicks = entry.clicks
 
   return (
-    <div className="flex items-start gap-4">
+    <div className="flex items-center gap-4">
       <UpvoteButton
         id={entry.id}
         initial={entry.upvotes}

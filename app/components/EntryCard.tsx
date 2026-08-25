@@ -22,7 +22,7 @@ export function EntryCard({ entry }: { entry: Entry }) {
         className="absolute inset-0 z-0 rounded-2xl"
       />
 
-      <div className="relative z-10 flex gap-4 pointer-events-none">
+      <div className="relative z-10 flex items-center gap-4 pointer-events-none">
         <UpvoteButton
           id={entry.id}
           initial={entry.upvotes}

@@ -9,6 +9,53 @@
     Times, serif;
   --font-sans: var(--font-geist-sans);
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* === color system (light default; .dark overrides below) === */
+  --color-white: #ffffff;
+  --color-neutral-50: #f1f5f9;
+  --color-neutral-100: #ffffff;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1e293b;
+  --color-neutral-900: #0f172a;
+  --color-neutral-950: #0b1622;
+
+  /* brand (blue navbar) + accent (orange) */
+  --color-brand: #1d4ed8;
+  --color-accent: #ff7a3c;
+
+  /* emerald -> orange (existing emerald classes become orange) */
+  --color-emerald-50: #fff1ea;
+  --color-emerald-100: #ffd9c2;
+  --color-emerald-200: #ffc2a3;
+  --color-emerald-300: #ffa87f;
+  --color-emerald-400: #ff9466;
+  --color-emerald-500: #ff7a3c;
+  --color-emerald-600: #f96a28;
+  --color-emerald-700: #e0541c;
+  --color-emerald-800: #c24216;
+  --color-emerald-900: #a3350f;
+
+  --color-scrollbar: #cbd5e1;
+}
+
+.dark {
+  --color-neutral-50: #0a1622;
+  --color-neutral-100: #112236;
+  --color-neutral-200: #1e3854;
+  --color-neutral-300: #3a5168;
+  --color-neutral-400: #9fb3c8;
+  --color-neutral-500: #b6c6d6;
+  --color-neutral-600: #cdd9e5;
+  --color-neutral-700: #e2eaf1;
+  --color-neutral-800: #eef3f8;
+  --color-neutral-900: #f5f7fa;
+  --color-neutral-950: #060d16;
+  --color-scrollbar: #2a3f57;
 }
 
 @layer utilities {
@@ -27,7 +74,7 @@
   }
 
   .scrollbar-hover:hover {
-    scrollbar-color: #d4d4d4 transparent;
+    scrollbar-color: var(--color-scrollbar) transparent;
   }
 
   .scrollbar-hover::-webkit-scrollbar {
@@ -45,11 +92,11 @@
   }
 
   .scrollbar-hover:hover::-webkit-scrollbar-thumb {
-    background-color: #d2d2d2;
+    background-color: var(--color-scrollbar);
   }
 
   .scrollbar-hover:hover::-webkit-scrollbar-thumb:hover {
-    background-color: #dfdfdf;
+    background-color: var(--color-scrollbar);
   }
 }
 

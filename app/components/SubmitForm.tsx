@@ -38,7 +38,7 @@ export function SubmitForm() {
         <ChevronDown
           size={18}
           className={cn(
-            'text-neutral-500 transition-transform duration-300',
+            'text-neutral-500 transition-transform duration-500',
             open && 'rotate-180',
           )}
         />
