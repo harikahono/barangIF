@@ -25,8 +25,9 @@ Name: **barangIF** = *barang* (thing you show off) + **IF** (Informatika, the bu
 ## 3. Tech stack
 
 - **Next.js 15** (App Router) + **TypeScript** + **Tailwind CSS**
-- **Supabase Postgres** (free tier: 2 projects, 500 MB DB) — storage
-- **@supabase/ssr** — server-side DB access (`await cookies()` pattern)
+- **Supabase Postgres** (free tier: 2 projects, 500 MB DB) — target production storage
+- **@supabase/ssr** — server-side DB access (`await cookies()` pattern) for prod
+- **DB seam `lib/db.ts`** — Phase 1 dev runs on a local JSON store (`data/`, gitignored, auto-seed); Supabase wired in later by swapping the seam, no call-site changes
 - **Vercel** — deploy (native Next.js, preview per PR)
 - **Supabase pooler** (port 6543) for server connections
 - **OpenAI Moderation API** (`omni-moderation-latest`, free) — submit-time content check
@@ -66,7 +67,7 @@ RLS: `anon` can `SELECT` and `INSERT` on `entries`. No `UPDATE`/`DELETE` for ano
   - `registerClick(id)` — increments `clicks`.
   - `reportEntry(id)` — increments `reports` (per-IP guard); sets `hidden` if threshold crossed.
 - `app/api/chat/route.ts` — Phase 3 mini-RAG: takes entry context + question, calls LLM with grounding system prompt.
-- `lib/supabase/server.ts`, `lib/supabase/client.ts` — DB clients.
+- `lib/db.ts` — DB seam: local JSON store in dev, Supabase in prod.
 - `lib/moderation.ts` — OpenAI Moderation call.
 - `lib/rateLimit.ts` — per-IP counter (Supabase table or KV).
 - `supabase/migrations/0001_init.sql` — schema + RLS + seed.
@@ -95,7 +96,7 @@ RLS: `anon` can `SELECT` and `INSERT` on `entries`. No `UPDATE`/`DELETE` for ano
 
 ## 9. Deploy
 
-1. Create Supabase project (free) → run `0001_init.sql` → copy env.
+1. Create Supabase project (free) → run `0001_init.sql` → copy env. (Dev lokal gak butuh Supabase — pakai JSON store lewat `lib/db.ts`.)
 2. `bun install` → `bun dev` → test submit / upvote / click (`bun run build` untuk produksi, jangan `--turbo`).
 3. Push to GitHub → import to Vercel → set env vars (or use Supabase×Vercel integration) → deploy.
 4. Domain: `barangif.vercel.app` (or buy `barangif.dev`).

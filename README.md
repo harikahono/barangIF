@@ -16,10 +16,14 @@ Tiap entri di-rank by **Score = upvotes×3 + klik**. Submitternya bisa pilih: ma
 barangIF/
 ├── CONTEXT.md              # glossary domain
 ├── SPEC.md                 # rencana produk lengkap
+├── AGENTS.md               # aturan main agent + konteks
+├── agents/                 # konteks & aturan (architecture, commands, dll)
 ├── docs/adr/0001-*.md      # keputusan arsitektur
-├── supabase/migrations/    # schema SQL + seed
+├── supabase/migrations/    # schema SQL + seed (target prod)
 ├── app/                    # Next.js App Router (board, detail, actions, api/chat)
-├── lib/                    # supabase clients, moderation, rate limit
+├── lib/                    # db seam, moderation, rate limit, cn, seed, types
+├── data/                   # store lokal (gitignored, auto-seed)
+├── public/                 # aset statis
 └── README.md
 ```
 
@@ -39,7 +43,7 @@ Env vars (lihat `.env.example`):
 
 ## Database
 
-Jalanin `supabase/migrations/0001_init.sql` di SQL editor Supabase (bikin tabel `entries` + RLS + seed). Pakai pooler URL (port 6543) di server.
+Phase 1 dev jalan di **local JSON store** lewat `lib/db.ts` (data di `data/`, gitignored, auto-seed) — gak butuh Supabase buat lokal. `supabase/migrations/0001_init.sql` sudah ada sebagai **target prod** (bikin tabel `entries` + RLS + seed) tapi belum diwire di dev; nanti tinggal ganti seam `lib/db.ts` ke Supabase.
 
 ## Deploy
 
