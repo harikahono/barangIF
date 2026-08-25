@@ -117,6 +117,7 @@ export const SegmentedToggleButton = forwardRef<
             role="tab"
             aria-selected={safeActive === index}
             tabIndex={safeActive === index ? 0 : -1}
+            onPointerDown={(e) => e.preventDefault()}
             onClick={() => select(index)}
             className={cn(
               "relative z-10 min-w-18 cursor-pointer rounded-lg px-4 py-2 text-center whitespace-nowrap outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-neutral-900",

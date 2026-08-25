@@ -193,6 +193,7 @@ export function Select({
         aria-required={required || undefined}
         onClick={() => (open ? closeMenu() : openMenu())}
         onKeyDown={onTriggerKeyDown}
+        onPointerDown={(e) => e.preventDefault()}
         className={cn(
           "flex h-10 w-full items-center justify-between rounded-lg border bg-neutral-100 px-3.5 font-sans text-sm transition-[border-color] duration-200",
           open ? "border-neutral-900" : "border-neutral-200 hover:border-neutral-900",
