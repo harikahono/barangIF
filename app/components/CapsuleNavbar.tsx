@@ -40,7 +40,7 @@ export default function CapsuleNavbar() {
   }, []);
 
   const linkClass = (href: string) =>
-    `block rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
+    `block rounded-full px-4 py-3 text-sm font-medium transition-colors ${
       pathname === href
         ? "bg-nav-active-bg text-nav-active-text"
         : "text-nav-fg hover:opacity-70"
@@ -52,7 +52,7 @@ export default function CapsuleNavbar() {
         hidden ? "-translate-y-[170%]" : "translate-y-0"
       }`}
     >
-      <nav className="relative flex w-[650px] max-w-[92vw] items-center justify-between rounded-full border border-neutral-200 bg-neutral-100 px-5 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.06),0_10px_30px_rgba(0,0,0,0.12)] max-sm:px-4">
+      <nav className="relative flex w-[650px] max-w-[92vw] items-center justify-between rounded-full border border-neutral-200 bg-neutral-100 px-5 py-2 shadow-[0_2px_4px_rgba(0,0,0,0.06),0_10px_30px_rgba(0,0,0,0.12)] max-sm:px-4">
         {/* desktop: link kiri */}
         <ul className="hidden items-center gap-5 sm:flex">
           {NAV.slice(0, 2).map((item) => (
