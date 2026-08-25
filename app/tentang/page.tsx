@@ -1,10 +1,12 @@
+import { AnnotatedText } from "../components/ui/AnnotatedText";
+
 export default function TentangPage() {
   return (
     <main className="mx-auto max-w-3xl px-4 py-8">
       <h1 className="text-2xl font-bold">Tentang</h1>
       <p className="mb-6 mt-1 text-sm text-neutral-600">
         <strong>BarangIF</strong> itu tempat pamer barang buat anak IF — Situs &amp; Prompt, di-rank
-        by vote. Dibuat karena papan semisal pamerin.lol keren, tapi kita pengen yang gratis dan
+        by <AnnotatedText variant="wavy">vote</AnnotatedText>. Dibuat karena papan semisal pamerin.lol keren, tapi kita pengen yang gratis dan
         murni suara komunitas.
       </p>
 
@@ -12,14 +14,14 @@ export default function TentangPage() {
         <h2 className="mb-2 text-lg font-semibold">Bedanya apa</h2>
         <ul className="list-disc space-y-1 pl-5 text-sm text-neutral-700">
           <li>
-            <strong>Vote, bukan bayar.</strong> Posisi ditentukan upvote &amp; klik, bukan nominal
+            <AnnotatedText variant="wavy" className="font-semibold">Vote</AnnotatedText>, bukan bayar. Posisi ditentukan upvote &amp; klik, bukan nominal
             sponsor.
           </li>
           <li>
-            <strong>Dua papan.</strong> Situs buat web/app, Prompt buat prompt AI siap pakai.
+            <strong>Dua papan.</strong> <AnnotatedText variant="circle" className="font-semibold">Situs</AnnotatedText> buat web/app, <AnnotatedText variant="circle" className="font-semibold">Prompt</AnnotatedText> buat prompt AI siap pakai.
           </li>
           <li>
-            <strong>Gratis &amp; tanpa login.</strong> Tinggal pamer, tinggal vote.
+            <AnnotatedText variant="underline" className="font-semibold">Gratis</AnnotatedText> &amp; tanpa login. Tinggal pamer, tinggal vote.
           </li>
         </ul>
       </section>
@@ -29,9 +31,9 @@ export default function TentangPage() {
         <ol className="list-decimal space-y-1 pl-5 text-sm text-neutral-700">
           <li>Isi form di beranda — pilih Situs atau Prompt, lengkapi detailnya.</li>
           <li>Listing langsung masuk papan.</li>
-          <li>Orang lain upvote &amp; klik → score naik → nangkring lebih atas.</li>
+            <li>Orang lain upvote &amp; klik → score naik → <AnnotatedText variant="wavy">nangkring</AnnotatedText> lebih atas.</li>
           <li>
-            Mau naik? Share ke temen biar mereka vote. Tidak ada tombol bayar 🤝
+            Mau naik? Share ke temen biar mereka vote. Tidak ada tombol <AnnotatedText variant="crossOut">bayar</AnnotatedText> 🤝
           </li>
         </ol>
       </section>
