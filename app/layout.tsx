@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="id" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
     <body className="min-h-screen bg-neutral-50 pt-14 text-neutral-900 antialiased">
       <script
         dangerouslySetInnerHTML={{

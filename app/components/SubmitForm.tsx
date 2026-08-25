@@ -7,6 +7,7 @@ import { Button } from './ui/Button'
 import { TextFieldInput } from './ui/text-field-input'
 import { TextareaFieldInput } from './ui/textarea-field-input'
 import { SegmentedToggleButton } from './ui/SegmentedToggle'
+import { Select } from './ui/Select'
 import { Card } from './ui/Card'
 import { cn } from '@/lib/cn'
 import type { Kind } from '@/lib/types'
@@ -94,23 +95,15 @@ export function SubmitForm() {
               <label htmlFor="category" className="mb-1.5 block text-sm font-medium text-neutral-900">
                 Kategori <span className="ml-0.5 text-rose-500" aria-hidden>*</span>
               </label>
-              <select
+              <Select
                 id="category"
                 name="category"
-                required
+                placeholder="Pilih kategori…"
                 value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="h-10 w-full rounded-lg border border-neutral-200 bg-neutral-100 px-3.5 font-sans text-sm text-neutral-900 outline-none transition-[border-color] duration-200 focus:border-neutral-900"
-              >
-                <option value="" disabled>
-                  Pilih kategori…
-                </option>
-                {categoriesFor(kind).map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
+                options={categoriesFor(kind)}
+                onValueChange={setCategory}
+                required
+              />
             </div>
 
             <div className="mb-4">
