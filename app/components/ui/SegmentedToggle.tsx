@@ -102,7 +102,7 @@ export const SegmentedToggleButton = forwardRef<
         <span
           aria-hidden
           className={cn(
-            "pointer-events-none absolute top-1 bottom-1 left-1 rounded-lg bg-white",
+            "pointer-events-none absolute top-1 bottom-1 left-1 rounded-lg bg-toggle-thumb",
             "shadow-[0_2px_4px_rgba(0,0,0,0.15),0_1px_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),inset_0_-2px_3px_rgba(0,0,0,0.06)]",
             SEGMENT_MOTION,
             indicatorWidthClass(count),
@@ -122,7 +122,7 @@ export const SegmentedToggleButton = forwardRef<
               "relative z-10 min-w-18 cursor-pointer rounded-lg px-4 py-2 text-center whitespace-nowrap outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-neutral-900",
               LABEL_MOTION,
               safeActive === index
-                ? "text-[#0f172a]"
+                ? "text-toggle-active-text"
                 : "text-neutral-500 hover:text-neutral-700",
             )}
           >
