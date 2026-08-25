@@ -52,9 +52,9 @@ export default function CapsuleNavbar() {
         hidden ? "-translate-y-[170%]" : "translate-y-0"
       }`}
     >
-      <nav className="relative flex w-[650px] max-w-[92vw] items-center justify-between rounded-full border border-neutral-200 bg-neutral-100 px-5 py-2 shadow-[0_2px_4px_rgba(0,0,0,0.06),0_10px_30px_rgba(0,0,0,0.12)] max-sm:px-4">
+      <nav className="relative flex w-[550px] max-w-[92vw] items-center justify-between rounded-full border border-neutral-200 bg-neutral-100 px-5 py-2 shadow-[0_2px_4px_rgba(0,0,0,0.06),0_10px_30px_rgba(0,0,0,0.12)] max-sm:px-4">
         {/* desktop: link kiri */}
-        <ul className="hidden items-center gap-5 sm:flex">
+        <ul className="hidden w-1/2 items-center justify-start gap-4 sm:flex">
           {NAV.slice(0, 2).map((item) => (
             <li key={item.href}>
               <Link href={item.href} className={linkClass(item.href)}>
@@ -78,7 +78,7 @@ export default function CapsuleNavbar() {
         </Link>
 
         {/* desktop: link kanan */}
-        <ul className="hidden items-center gap-5 sm:flex">
+        <ul className="hidden w-1/2 items-center justify-end gap-4 sm:flex">
           {NAV.slice(2).map((item) => (
             <li key={item.href}>
               <Link href={item.href} className={linkClass(item.href)}>

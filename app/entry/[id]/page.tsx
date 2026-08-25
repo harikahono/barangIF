@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { getEntry } from '@/lib/db'
 import { Card } from '@/app/components/ui/Card'
 import { EntryVotePanel } from './EntryVotePanel'
+import { ChatWidget } from '@/app/components/ChatWidget'
 
 export default async function EntryPage({
   params,
@@ -22,6 +23,7 @@ export default async function EntryPage({
       <Card className="mt-4">
         <EntryVotePanel entry={entry} />
       </Card>
+      <ChatWidget entry={entry} />
     </main>
   )
 }
