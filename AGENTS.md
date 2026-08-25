@@ -14,6 +14,7 @@ Setiap ada perubahan kode → **UPDATE md terkait biar gak stale**:
 - fitur / keputusan baru → `agents/changelog.md` (format: `YYYY-MM-DD · apa · kenapa`)
 - stack / tujuan berubah → `agents/overview.md`
 - DB / auth berubah → `agents/database.md` / `agents/auth.md`
+- kerja backend / serah-terima ke ALIM → baca `handoff for ALIM.md` (root)
 
 Jangan biarin md dan kode menyimpang. Kalau ngerjain satu fitur, update md di akhir, bukan nanti.
 
@@ -31,6 +32,7 @@ lib/            # db seam, types, seed, rateLimit, moderation, cn
 supabase/       # migrations (siap, belum dipakai di dev lokal)
 agents/         # konteks & aturan main (baca folder ini)
 data/           # store lokal (gitignored, auto-seed)
+handoff for ALIM.md  # serah-terima BE ke ALIM (root, baca kalau kerja backend)
 ```
 Penjelasan lengkap di `agents/architecture.md`.
 
