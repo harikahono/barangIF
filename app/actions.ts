@@ -6,6 +6,7 @@ import { insertEntry, incrementUpvotes, decrementUpvotes, incrementClicks, appen
 import { rateLimited } from '@/lib/rateLimit'
 import { moderate } from '@/lib/moderation'
 import type { Kind, FeedbackType } from '@/lib/types'
+import { categoriesFor } from '@/lib/types'
 
 export interface SubmitState {
   ok: boolean
@@ -45,6 +46,9 @@ export async function submitEntry(
   const body = String(formData.get('body') ?? '').trim().slice(0, 5000)
   const variables = String(formData.get('variables') ?? '').trim().slice(0, 500)
   const category = String(formData.get('category') ?? '').trim().slice(0, 50)
+  if (!categoriesFor(kind as Kind).includes(category)) {
+    return { ok: false, error: 'Pilih kategori yang valid.' }
+  }
 
   let url: string | undefined
   if (kind === 'site') {

@@ -1,5 +1,22 @@
 export type Kind = 'site' | 'prompt'
 
+// ponytail: kategori fiks biar filter gak pecah. Per-kind, ada "Lainnya" catch-all.
+export const SITE_CATEGORIES = [
+  'Web App', 'Mobile App', 'Game', 'Tool / Utility', 'AI / ML',
+  'Portfolio / Showcase', 'Open Source', 'Data / Viz', 'IoT / Hardware',
+  'Edu / Pembelajaran', 'SaaS', 'Bot / Automation', 'Lainnya',
+] as const
+
+export const PROMPT_CATEGORIES = [
+  'Coding', 'Writing / Content', 'Image Gen', 'Video', 'Marketing / Copy',
+  'Productivity', 'Education', 'Chatbot / Assistant', 'Data / Analysis',
+  'Creative / Brainstorm', 'Business / Strategy', 'Research', 'Lainnya',
+] as const
+
+export function categoriesFor(kind: Kind): readonly string[] {
+  return kind === 'prompt' ? PROMPT_CATEGORIES : SITE_CATEGORIES
+}
+
 export interface Entry {
   id: string
   kind: Kind

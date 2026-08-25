@@ -10,6 +10,7 @@ import { SegmentedToggleButton } from './ui/SegmentedToggle'
 import { Card } from './ui/Card'
 import { cn } from '@/lib/cn'
 import type { Kind } from '@/lib/types'
+import { categoriesFor } from '@/lib/types'
 
 const KIND_OPTS = ['Situs', 'Prompt'] as const
 const CHAT_OPTS = ['Gak', 'Ya'] as const
@@ -18,6 +19,7 @@ export function SubmitForm() {
   const [state, formAction] = useActionState(submitEntry, { ok: false } as SubmitState)
   const [kind, setKind] = useState<Kind>('site')
   const [chat, setChat] = useState(false)
+  const [category, setCategory] = useState('')
   const [open, setOpen] = useState(false)
 
   // auto-lipat pas submit sukses
@@ -66,7 +68,10 @@ export function SubmitForm() {
                 options={KIND_OPTS}
                 defaultIndex={kind === 'prompt' ? 1 : 0}
                 className="!w-full"
-                onChange={(_i, value) => setKind(value === 'Prompt' ? 'prompt' : 'site')}
+                onChange={(_i, value) => {
+                  setKind(value === 'Prompt' ? 'prompt' : 'site')
+                  setCategory('')
+                }}
               />
             </div>
             <input type="hidden" name="kind" value={kind} readOnly />
@@ -85,7 +90,28 @@ export function SubmitForm() {
               </>
             )}
 
-            <TextFieldInput label="Kategori (opsional)" name="category" maxLength={50} containerClassName="!max-w-none w-full mb-4" />
+            <div className="mb-4">
+              <label htmlFor="category" className="mb-1.5 block text-sm font-medium text-neutral-900">
+                Kategori <span className="ml-0.5 text-rose-500" aria-hidden>*</span>
+              </label>
+              <select
+                id="category"
+                name="category"
+                required
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="h-10 w-full rounded-lg border border-neutral-200 bg-neutral-100 px-3.5 font-sans text-sm text-neutral-900 outline-none transition-[border-color] duration-200 focus:border-neutral-900"
+              >
+                <option value="" disabled>
+                  Pilih kategori…
+                </option>
+                {categoriesFor(kind).map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </div>
 
             <div className="mb-4">
               <span className="mb-1.5 block text-sm font-medium text-neutral-900">Mo ada chatbot penjelas?</span>
