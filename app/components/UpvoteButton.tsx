@@ -103,7 +103,7 @@ export const UpvoteButton = forwardRef<HTMLButtonElement, UpvoteButtonProps>(
         className={cn(
           'inline-flex shrink-0 flex-col items-center gap-0.5 rounded-full px-3 py-2 font-sans text-sm font-medium select-none',
           'transition-[background-color,box-shadow,color] duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]',
-          'shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_1px_1px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.08),inset_0_-2px_4px_rgba(0,0,0,0.08)]',
+          'shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_1px_1px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.08),inset_0_1px_2px_var(--color-toggle-sheen),inset_0_-2px_4px_rgba(0,0,0,0.08)]',
           upvoted
             ? 'bg-emerald-50 text-emerald-600 active:bg-emerald-100'
             : 'bg-neutral-50 text-neutral-600 hover:text-neutral-900 active:bg-neutral-100',

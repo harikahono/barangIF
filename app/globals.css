@@ -26,9 +26,10 @@
 
   /* accent (orange navbar) */
   --color-accent: #ff7a3c;
-  /* SegmentedToggle theme-aware (thumb + active label) */
+  /* SegmentedToggle theme-aware (thumb + active label + sheen) */
   --color-toggle-thumb: #ffffff;
   --color-toggle-active-text: #0f172a;
+  --color-toggle-sheen: rgba(255,255,255,0.95);
 
   /* emerald -> orange (existing emerald classes become orange) */
   --color-emerald-50: #fff1ea;
@@ -60,6 +61,7 @@
   --color-scrollbar: #2a3f57;
   --color-toggle-thumb: #3a5168;
   --color-toggle-active-text: #f5f7fa;
+  --color-toggle-sheen: rgba(255,255,255,0.10);
 }
 
 @layer utilities {
