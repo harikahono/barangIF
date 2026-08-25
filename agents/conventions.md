@@ -15,8 +15,12 @@
 - Komponen di `app/components/ui/` boleh client bila perlu, tapi sebisa mungkin
   presentational (bisa dipakai server & client).
 - Server Action di `app/actions.ts` diawali `'use server'`.
-- **Client components sejauh ini:** `EntryCard`, `EntryVotePanel`,
-  `UpvoteButton`, `ClickLink`, `SubmitForm` (semua butuh state/event/localStorage).
+- **Client components** (non-exhaustive — cek `'use client'` di tiap file):
+  `Board`, `EntryCard`, `EntryVotePanel`, `UpvoteButton`, `ClickLink`,
+  `SubmitForm`, `BoardTabs`, `CapsuleNavbar`, `ThemeToggle`, `ChatWidget`,
+  dan UI: `Button`, `Select`, `SegmentedToggle`, `text-field-input`,
+  `textarea-field-input` (semua butuh state/event/localStorage/animasi
+  interaktif). `ActivityFeed` & `AnnotatedText` tetap server component.
 
 ## Naming
 - Tipe: `Entry`, `Kind` (`'site' | 'prompt'`) di `lib/types.ts`.
@@ -48,8 +52,10 @@ Tandai simplifikasi sengaja dengan komentar `// ponytail: ...` (sebutkan ceiling
 - **Collapsible:** pakai CSS grid `0fr/1fr` + `transition-[grid-template-rows]`
   (inner `overflow-hidden`). Jangan pakai max-height hack / JS measuring /
   library. Default tutup + `inert` pas tertutup biar gak focusable.
-- **Build/typecheck:** pakai `bun run build` (udah type-check). Jangan jalanin
-  `bunx tsc --noEmit` telanjang — bakal error karena `.next/types` belum ada.
+- **Build/typecheck:** pakai `bun run build` (udah type-check). `bunx tsc --noEmit`
+  boleh dipakai asal `.next/types` sudah ke-generate (mis. habis `bun run build`/
+  `typecheck`); kalau fresh (belum pernah build), pakai `bun run typecheck` biar
+  `next typegen` bikin `.next/types` dulu.
 
 ## Doc discipline
 Tiap ubah kode, update md terkait (lihat `AGENTS.md`). Jangan biarin md stale.

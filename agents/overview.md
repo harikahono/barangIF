@@ -31,9 +31,14 @@ Nama: **barangIF** = *barang* (thing yang dipamerin) + **IF** (Informatika).
   rate-limit + moderasi), upvote, click, seed.
 - **Phase 2 (optional):** search/filter, copy-prompt, owner token self-manage,
   report auto-hide.
-- **Phase 3:** chatbot mini-RAG per barang.
+- **Phase 3:** chatbot mini-RAG per barang — **(sebagian) UI + mock seam sudah
+  jadi** (`ChatWidget` + `lib/chat.getChatReply`); sisa sambungin LLM beneran
+  via `/api/chat`.
 
 ## Status
 MVP jalan lokal tanpa akun eksternal: 2 board (Situs/Prompt), submit
 (+validasi/honeypot/rate-limit/moderasi stub), upvote (bisa cancel), click,
-detail + vote-panel, form collapsible. Lihat `agents/changelog.md`.
+detail + vote-panel, form collapsible. Plus 4 halaman konten (Statistik, Aturan,
+Tentang, Masukan) & navbar kapsul. **Chatbot per-item (mock) sudah ada** di
+detail barang ber-`has_chatbot` (UI + `lib/chat` mock; LLM belum nyambung).
+Lihat `agents/changelog.md`.

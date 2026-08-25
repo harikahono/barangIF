@@ -16,7 +16,9 @@ Buka `/` → board. Submit / upvote / click langsung jalan (store lokal di
 - Window server yang jalan itu wajar; stop pakai Ctrl+C.
 - **JANGAN hapus `.next` sembarangan.** Cuma clear (hapus folder `.next`)
   kalau beneran kena stale-cache (gejalanya: `PageNotFoundError` / "Cannot find
-  module for page" padahal file ada). Itu satu-satunya pengecualian.
+  module for page" padahal file ada / build gagal prerender `/404` dengan error
+  `<Html> should not be imported outside of pages/_document` padahal gak ada
+  yang import `Html`). Itu satu-satunya pengecualian.
 
 ## Verifikasi cepat — JANGAN `bun run build` tiap edit
 Build produksi berat & nulis ke `.next` (bisa nabrak dev server, lihat Catatan
