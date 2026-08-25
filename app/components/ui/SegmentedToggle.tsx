@@ -93,7 +93,7 @@ export const SegmentedToggleButton = forwardRef<
         data-slot="segmented-toggle-button"
         className={cn(
           "relative inline-grid w-fit gap-1 rounded-xl bg-neutral-200 p-1 font-sans text-sm font-medium select-none",
-          "shadow-[inset_0_1px_2px_rgba(0,0,0,0.08),inset_0_2px_4px_rgba(0,0,0,0.05),inset_0_-2px_3px_rgba(0,0,0,0.06),0_1px_0_rgba(255,255,255,0.9)]",
+          "shadow-[inset_0_1px_2px_rgba(0,0,0,0.08),inset_0_2px_4px_rgba(0,0,0,0.05),inset_0_-2px_3px_rgba(0,0,0,0.06)]",
           segmentGridClass(count),
           className,
         )}
@@ -103,7 +103,7 @@ export const SegmentedToggleButton = forwardRef<
           aria-hidden
           className={cn(
             "pointer-events-none absolute top-1 bottom-1 left-1 rounded-lg bg-toggle-thumb",
-            "shadow-[0_2px_4px_rgba(0,0,0,0.15),0_1px_1px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95),inset_0_-2px_3px_rgba(0,0,0,0.06)]",
+            "shadow-[0_2px_4px_rgba(0,0,0,0.15),0_1px_1px_rgba(0,0,0,0.08),inset_0_-2px_3px_rgba(0,0,0,0.06)]",
             SEGMENT_MOTION,
             indicatorWidthClass(count),
             indicatorOffsetClass(count, safeActive),
