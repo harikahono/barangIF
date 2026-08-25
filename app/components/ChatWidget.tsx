@@ -65,25 +65,32 @@ export function ChatWidget({ entry }: { entry: Entry }) {
 
   return (
     <>
-      {!open && (
-        <button
-          ref={launcherRef}
-          type="button"
-          aria-label="Buka chat penjelas"
-          onClick={() => setOpen(true)}
-          className="fixed bottom-4 right-4 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-accent text-nav-active-text shadow-lg transition-transform duration-200 hover:scale-105 active:scale-95 motion-reduce:transition-none"
-        >
-          <MessageSquare size={22} />
-        </button>
-      )}
+      <button
+        ref={launcherRef}
+        type="button"
+        aria-label="Buka chat penjelas"
+        aria-hidden={open}
+        inert={open}
+        onClick={() => setOpen(true)}
+        className={
+          'fixed bottom-4 right-4 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-accent text-nav-active-text shadow-lg transition-[transform,opacity] duration-200 ease-[var(--ease-smooth)] hover:scale-105 active:scale-95 motion-reduce:transition-none ' +
+          (open ? 'pointer-events-none scale-90 opacity-0' : 'scale-100 opacity-100')
+        }
+      >
+        <MessageSquare size={22} />
+      </button>
 
-      {open && (
-        <div
-          ref={panelRef}
-          role="dialog"
-          aria-label={`Chat penjelas ${entry.title}`}
-          className="fixed bottom-4 right-4 z-50 flex h-[28rem] w-[390px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100 shadow-xl max-sm:inset-0 max-sm:h-[100dvh] max-sm:w-full max-sm:max-w-full"
-        >
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-label={`Chat penjelas ${entry.title}`}
+        aria-hidden={!open}
+        inert={!open}
+        className={
+          'fixed bottom-4 right-4 z-50 flex h-[28rem] w-[390px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100 shadow-xl max-sm:inset-0 max-sm:h-[100dvh] max-sm:w-full max-sm:max-w-full origin-bottom-right transition-[transform,opacity] duration-200 ease-[var(--ease-smooth)] motion-reduce:transition-none ' +
+          (open ? 'scale-100 translate-y-0 opacity-100' : 'pointer-events-none scale-95 translate-y-2 opacity-0')
+        }
+      >
           <div className="flex items-center justify-between border-b border-neutral-200 px-4 py-3">
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold text-neutral-900">{entry.title}</p>
@@ -104,7 +111,7 @@ export function ChatWidget({ entry }: { entry: Entry }) {
               <div key={i} className={msg.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
                 <span
                   className={
-                    'max-w-[75%] whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm ' +
+                    'max-w-[75%] animate-[messageIn_0.18s_var(--ease-smooth)] whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm motion-reduce:animate-none ' +
                     (msg.role === 'user'
                       ? 'bg-accent text-nav-active-text'
                       : 'bg-neutral-200 text-neutral-900')
@@ -116,7 +123,7 @@ export function ChatWidget({ entry }: { entry: Entry }) {
             ))}
             {typing && (
               <div className="flex justify-start">
-                <span className="inline-flex items-center gap-1 rounded-2xl bg-neutral-200 px-3 py-3 text-neutral-500">
+                <span className="inline-flex animate-[messageIn_0.18s_var(--ease-smooth)] items-center gap-1 rounded-2xl bg-neutral-200 px-3 py-3 text-neutral-500 motion-reduce:animate-none">
                   <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-neutral-500 [animation-delay:-0.3s]" />
                   <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-neutral-500 [animation-delay:-0.15s]" />
                   <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-neutral-500" />
@@ -157,8 +164,7 @@ export function ChatWidget({ entry }: { entry: Entry }) {
               <Send size={16} />
             </button>
           </form>
-        </div>
-      )}
+      </div>
     </>
   )
 }
