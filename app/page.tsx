@@ -16,8 +16,8 @@ export default async function Home({
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-8">
-      <h1 className="mb-4 text-2xl font-bold text-neutral-900">
-        Tempat pamer barang buat anak IF. Pamer Situs / Prompt, di-rank by vote.
+      <h1 className="mb-4 text-center text-2xl font-bold text-neutral-900">
+        Tempat pamer barang buat anak IF
       </h1>
       <SubmitForm />
       <BoardTabs active={active} />
