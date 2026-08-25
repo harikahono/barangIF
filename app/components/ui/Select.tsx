@@ -83,7 +83,7 @@ export function Select({
     return () => cancelAnimationFrame(raf);
   }, [open]);
 
-  // outside click + scroll/resize dismiss
+  // outside click tutup; scroll/resize posisi ulang (jangan tutup)
   useEffect(() => {
     if (!open) return;
     const onPointerDown = (e: MouseEvent) => {
@@ -91,7 +91,10 @@ export function Select({
       if (rootRef.current?.contains(t) || portalRef.current?.contains(t)) return;
       setOpen(false);
     };
-    const onScrollOrResize = () => setOpen(false);
+    const onScrollOrResize = (e?: Event) => {
+      if (e && portalRef.current?.contains(e.target as Node)) return; // scroll di dalam list → abaikan
+      measure(); // posisi ulang ikut trigger, dropdown tetap kebuka
+    };
     document.addEventListener("mousedown", onPointerDown);
     window.addEventListener("scroll", onScrollOrResize, true);
     window.addEventListener("resize", onScrollOrResize);
