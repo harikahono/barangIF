@@ -26,10 +26,10 @@
 
   /* accent (tonal: ink light / paper dark) */
   --color-accent: #0f172a;
-  /* navbar fg tokens (pill flips, so text flips too) */
-  --color-nav-fg: #ffffff;
-  --color-nav-active-bg: #ffffff;
-  --color-nav-active-text: #0f172a;
+  /* navbar fg tokens (pill matches card surface, so text flips too) */
+  --color-nav-fg: #0f172a;
+  --color-nav-active-bg: #0f172a;
+  --color-nav-active-text: #ffffff;
   /* SegmentedToggle theme-aware (thumb + active label + sheen) */
   --color-toggle-thumb: #ffffff;
   --color-toggle-active-text: #0f172a;
@@ -64,9 +64,9 @@
   --color-neutral-950: #060d16;
   --color-scrollbar: #2a3f57;
   --color-accent: #f5f7fa;
-  --color-nav-fg: #0f172a;
-  --color-nav-active-bg: #0f172a;
-  --color-nav-active-text: #ffffff;
+  --color-nav-fg: #f5f7fa;
+  --color-nav-active-bg: #f5f7fa;
+  --color-nav-active-text: #0f172a;
   --color-toggle-thumb: #3a5168;
   --color-toggle-active-text: #f5f7fa;
   --color-toggle-sheen: rgba(255,255,255,0.10);
